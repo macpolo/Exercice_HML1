@@ -1,6 +1,6 @@
 <html>
 <body>
-<h1>Insertion du film</h1>
+<h1>test</h1>
 <?php
 
 $TITRE= $_GET['titre'];
