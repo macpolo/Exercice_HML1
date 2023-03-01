@@ -1,47 +1,39 @@
-<?php
-$base = new PDO('mysql:host=localhost; dbname=id20205709_movies', 'id20205709_macpolo', 'Daniela75015/');
-?>
+<!DOCTYPE html>
 <html>
-  <head>
-  <title>recherche</title>
-  </head>
-  <body>
-    <h1>Rechercher un film par année</h1>
+<head>
+    <title>Liste des films</title>
+</head>
+<body>
+    <a href="liste.php">Voir le code</a>
+    <a href="insert.php">Voir le code</a>
+    <br>
+    <br>
+    <h1>Formulaire de saisie</h1>
     <form action="insert.php" method="GET">
-      <label for="annee">Année :</label>
-      <select name="annee" id="annee">
-        <option value="2000">2000</option>
-        <option value="2001">2001</option>
-        <option value="2002">2002</option>
-        <option value="2003">2003</option>
-        <option value="2004">2004</option>
-        <option value="2005">2005</option>
-        <option value="2006">2006</option>
-        <option value="2007">2007</option>
-        <option value="2008">2008</option>
-        <option value="2009">2009</option>
-        <option value="2010">2010</option>
-        <option value="2011">2011</option>
-        <option value="2012">2012</option>
-        <option value="2013">2013</option>
-        <option value="2014">2014</option>
-        <option value="2015">2015</option>
-        <option value="2016">2016</option>
-        <option value="2017">2017</option>
-        <option value="2018">2018</option>
-        <option value="2019">2019</option>
-        <option value="2020">2020</option>
-      </select>
-      <input type="submit" value="Rechercher" name="Rechercher" />
+        <p>TITRE ? <input name="titre"/></p>
+        <p>GENRE ? <input name="genre"/></p>
+        <p>ANNEE ? <input name="annee"/></p>
+        <p><input type="submit"/></p>
     </form>
-    <?php
-    if (isset($_POST['annee'])){
-      $annee=$_POST['annee'];
-      $retour = $base->query('SELECT * FROM movies WHERE annee='.$annee.';');
-      while ($donnees = $retour->fetch()){
-        echo "<p>".$donnees['titre']." (".$donnees['annee'].")</p>";
-      }
-    }
-    ?>
-  </body>
+    <br>
+    <form action="liste.php" method="GET">
+        <label for="ANNEE">Année :</label>
+        <?php
+        //1° - Connexion à la BDD
+        $base = new PDO('mysql:host=localhost; dbname=id20205709_movies', 'id20205709_macpolo', 'Daniela75015/');
+        $base->exec("SET CHARACTER SET utf8");
+
+        //2° - Préparation de requette et execution
+        $retour = $base->query('SELECT DISTINCT annee FROM movies;');
+
+        //3° - Lecture du resultat de la requette
+        echo "<select name='annee' id='ANNEE'>";
+        while ($data = $retour->fetch()){
+            echo "<option value='".$data['annee']."'>".$data['annee']."</option>";
+        }
+        echo "</select>";
+        ?>
+        <input type="submit" value="Rechercher">
+    </form>
+</body>
 </html>
