@@ -1,39 +1,39 @@
-<!DOCTYPE html>
 <html>
-<head>
-    <title>Liste des films</title>
-</head>
 <body>
-    <a href="liste.php">Voir le code</a>
-    <a href="insert.php">Voir le code</a>
-    <br>
-    <br>
-    <h1>Formulaire de saisie</h1>
-    <form action="insert.php" method="GET">
-        <p>TITRE ? <input name="titre"/></p>
-        <p>GENRE ? <input name="genre"/></p>
-        <p>ANNEE ? <input name="annee"/></p>
-        <p><input type="submit"/></p>
-    </form>
-    <br>
-    <form action="liste.php" method="GET">
-        <label for="ANNEE">Année :</label>
-        <?php
-        //1° - Connexion à la BDD
-        $base = new PDO('mysql:host=localhost; dbname=id20205709_movies', 'id20205709_macpolo', 'Daniela75015/');
-        $base->exec("SET CHARACTER SET utf8");
+    <h1>Liste des film</h1>
+    <?php
+    // Récupérer l'année de recherche
+    $ANNEE = $_GET['annee'];
 
-        //2° - Préparation de requette et execution
-        $retour = $base->query('SELECT DISTINCT annee FROM movies;');
+    // Connexion à la BDD
+    $base = new PDO('mysql:host=localhost; dbname=id20205709_movies', 'id20205709_macpolo', 'Daniela75015/');
+    $base->exec("SET CHARACTER SET utf8");
 
-        //3° - Lecture du resultat de la requette
-        echo "<select name='annee' id='ANNEE'>";
-        while ($data = $retour->fetch()){
-            echo "<option value='".$data['annee']."'>".$data['annee']."</option>";
+    // Échapper les caractères spéciaux pour éviter les injections SQL
+    $ANNEE = $base->quote($ANNEE);
+
+    // Construire la requête SQL
+    $sql = "SELECT titre FROM movies WHERE annee = $ANNEE";
+
+    // Exécuter la requête SQL
+    $retour = $base->query($sql);
+
+    // Vérifier si des résultats ont été trouvés
+    if ($retour->rowCount() > 0) {
+        // Afficher les résultats sous forme de liste
+        echo "<ul>";
+        while ($data = $retour->fetch()) {
+            echo "<li>" . $data["titre"] . "</li>";
         }
-        echo "</select>";
-        ?>
-        <input type="submit" value="Rechercher">
-    </form>
+        echo "</ul>";
+    } else {
+        echo "Aucun film trouvé pour l'année $ANNEE";
+    }
+
+    // Fermer la connexion à la base de données
+    $base = null;
+    ?>
 </body>
 </html>
+
+      
