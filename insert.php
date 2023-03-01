@@ -10,7 +10,7 @@ $ANNEE = $_GET['annee'];
 echo $TITRE." ".$GENRE." ".$ANNEE; 
 
 //1° - Connexion à la BDD
-$base = new PDO('mysql:host=localhost; dbname=id20215400_cnamgreta', 'id20215400_boris', '=nq^^=vKz?FRiz7-');
+$base = new PDO('mysql:host=localhost; dbname=id20205709_movies', 'id20205709_macpolo', 'Daniela75015/');
 $base->exec("SET CHARACTER SET utf8");
 $sql = 'INSERT INTO movies VALUES(NULL,"'.$TITRE.'","'.$GENRE.'",'.$ANNEE.')';
 //2° - Préparation de requette et execution
