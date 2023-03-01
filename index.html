@@ -1,35 +1,39 @@
+<!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="UTF-8"/>
-		<title>Exercice HTML</title>
-	</head>
-	
-	<body>
+<head>
+    <title>Liste des films</title>
+</head>
+<body>
+    <a href="liste.php">Voir le code</a>
+    <a href="insert.php">Voir le code</a>
+    <br>
+    <br>
+    <h1>Formulaire de saisie</h1>
+    <form action="insert.php" method="GET">
+        <p>TITRE ? <input name="titre"/></p>
+        <p>GENRE ? <input name="genre"/></p>
+        <p>ANNEE ? <input name="annee"/></p>
+        <p><input type="submit"/></p>
+    </form>
+    <br>
+    <form action="liste.php" method="GET">
+        <label for="ANNEE">Année :</label>
+        <?php
+        //1° - Connexion à la BDD
+        $base = new PDO('mysql:host=localhost; dbname=id20205709_movies', 'id20205709_macpolo', 'Daniela75015/');
+        $base->exec("SET CHARACTER SET utf8");
 
-<style>
-li>ul{color:red}		
+        //2° - Préparation de requette et execution
+        $retour = $base->query('SELECT DISTINCT annee FROM movies;');
 
-</style>		
-		
-
-<h1> Nom Prénom</h1>
-
-<!-- Liste à puces -->
-<ul>
-	<li>Item 1</li>
-	<li>Item 2</li>
-	<li>Item 3</li>
-</ul>
-
-<!-- Liste ordonnée -->
-<ol>
-	<li>Item 1</li>
-	<li>Item 2</li>
-	<li>Item 3</li>
-</ol>
-<a href="liste.php">Liste des films</a> <br>
-<a href="saisie.html">saisie</a> <br>
-<a href="recherche.php">recherche</a>		
+        //3° - Lecture du resultat de la requette
+        echo "<select name='annee' id='ANNEE'>";
+        while ($data = $retour->fetch()){
+            echo "<option value='".$data['annee']."'>".$data['annee']."</option>";
+        }
+        echo "</select>";
+        ?>
+        <input type="submit" value="Rechercher">
+    </form>
 </body>
-
 </html>
