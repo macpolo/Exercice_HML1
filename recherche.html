@@ -32,7 +32,7 @@
       <input type="submit" value="Rechercher" name="Rechercher" />
     </form>
     <?php
-    if (isset($_POST['Année'])){
+    if (isset($_POST['annee'])){
       $annee=$_POST['annee'];
       $retour = $base->query('SELECT * FROM movies WHERE annee='.$annee.';');
       while ($donnees = $retour->fetch()){
